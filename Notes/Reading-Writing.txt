@@ -1,0 +1,136 @@
+//----------------------------------
+
+from pathlib import Path
+Path('spam', 'bacon', 'eggs')
+
+PosixPath('spam/bacon/eggs')
+
+str(Path('spam', 'bacon', 'eggs'))
+
+'spam/bacon/eggs'
+
+//----------------------------------
+
+/ operator is used to join two paths
+
+from pathlib import Path
+Path('spam') / 'bacon' / 'eggs'
+
+PosixPath('spam/bacon/eggs')
+
+Path('spam') / Path('bacon/eggs')
+
+PosixPath('spam/bacon/eggs')
+
+Path('spam') / Path('bacon', 'eggs')
+
+PosixPath('spam/bacon/eggs')
+
+//----------------------------------
+
+The Current Working Directory
+
+from pathlib import Path
+import os
+
+Path.cwd()
+
+PosixPath('/home/himanshul')
+
+os.chdir('/home/himanshul/Desktop')
+Path.cwd()
+
+PosixPath('/home/himanshul/Desktop')
+
+//----------------------------------
+
+The Home Directory
+
+Path.home()
+
+PosixPath('/home/himanshul')
+
+//----------------------------------
+
+Creating New Folder Using the os.makedirs() Function
+
+import os
+os.makedirs('PATH')
+
+Using Path object:
+
+form pathlib import Path
+
+Path(r'PATH').mkdir()
+
+//----------------------------------
+
+Handling Absolute and Relative Paths
+
+Path.cwd().is_absolute()
+
+True
+
+Path('spam/bacon/eggs').is_absolute()
+
+False
+
+Path.cwd / Path('my/relative/path'): Will make a relative path absolute
+
+Some more useful functions related to absolute and relative paths:
+
+* Calling os.path.abspath(path) will return a string of the absolute path of the argument. This is an esay way to convert a relative path into an absolute one.
+
+* Calling os.path.isabs(path) will return True if the argument is an absolute path and Glase if it is a relative path.
+
+* Calling os.path.relpath(path, start) will return a sttring of a relative path from the start path to path. Ig start is not providedm the current working directory is used as the start path.
+
+//----------------------------------
+
+Getting the Parts of a File Path
+
+p = Path('/home/himanshul/go-file.log')
+p.anchor
+
+'/'
+
+p.parent
+
+PosixPath('/home/himanshul') #This is a Path object, not a string.
+
+p.name
+
+'go-file.log'
+
+p.stem
+
+'go-file'
+
+p.suffix
+
+'.log'
+
+p.drive
+
+''
+
+The patrents attribute (which is different from the parent attribute) evaluates to the ancestor folders of a Path object with an integer index:
+
+Path.cwd()
+
+PosixPath('/home/himanshul/Desktop')
+
+Path.cwd().parents[0]
+
+PosixPath('/home/himanshul')
+
+Path.cwd().parents[1]
+
+PosixPath('/home')
+
+Path.cwd().parents[2]
+
+PosixPath('/')
+
+//----------------------------------
+

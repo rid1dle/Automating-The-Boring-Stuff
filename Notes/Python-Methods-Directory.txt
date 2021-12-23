@@ -1,0 +1,69 @@
+span = {'color': 'red', 'age': 42}
+//-------------------------
+for v in span.values():
+        print(v)
+
+Output: red
+        42
+
+//--------------------------
+
+for k in span.keys():
+        print(k)
+
+Output: color
+        age
+
+//--------------------------
+
+for i in span.items():
+        print(i)
+
+Output: ('color', 'red')
+        ('age', 42)
+
+//--------------------------
+
+print(span.keys())
+
+Output: dict_keys(['color', 'age'])
+
+//--------------------------
+
+print(list(span.keys()))
+
+Output: ['color', 'age']
+
+//--------------------------
+
+Method: .get('element', fall_back_vlue)
+
+//--------------------------
+
+span.setdefault('color', 'black') // Set's the default value of color to black if it does not exit, and if it does exists it simply returns the key's value.
+
+//--------------------------
+
+message = 'It was a bright cold day in April, and the clocks were striking thirteen.'
+
+count = {}
+
+for character in message:
+    count.setdefault(character, 0)
+    count[character] += 1
+
+print(count)
+
+It will give a directory with all the distinct vlaued of each character.
+
+//---------------------------
+
+import pprint
+
+pprint.pprint(something) //Prints everyting in a pretty manner
+
+pprint.pformat(someting) //Makes everyting in a string in a pretty matter
+
+//---------------------------
+
+

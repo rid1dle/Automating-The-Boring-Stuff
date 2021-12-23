@@ -1,0 +1,328 @@
+//----------------------------------
+
+Regular expressions, called regexes for short, are descriptions for a pttern of text.
+
+\d is a regex for a digit character
+
+The following are example of regular expressions
+\d\d\d-\d\d\d-\d\d\d\d -> will search for any US number
+\d{3}-\d{3}-\d{4} -> will do the same thing
+
+//----------------------------------
+
+Creating Regex Objects:
+
+import re
+
+Passing a string value representing your regular expression to re.compile() returns a Regex pattern object (or simply, a Regex object)
+
+phoneNumRegex = re.compile(r'\d\d\d-\d\d\d-\d\d\d\d')
+
+Now the phoneNumRegex varibale contains a Regex object
+
+//----------------------------------
+
+phoneNumRegex = re.compile(r'\d\d\d-\d\d\d-\d\d\d\d')
+mo = phoneNumRegex.search('My number is 415-555-4242.')
+print('Phone number found: ' + mo.group())
+
+Phone number found: 415-555-4242
+
+//----------------------------------
+
+phoneNumRegex = re.compile(r'(\d\d\d)-(\d\d\d-\d\d\d\d)')
+mo = phoneNumRegex.search('My number is 415-555-4242.')
+mo.group(1)
+
+'415'
+
+mo.group(2)
+
+'555-4242'
+
+mo.group(0)
+
+'415-555-4242'
+
+mo.group()
+
+'415-555-4242'
+
+To retrive all groups at once, use the groups() method - note the prural form of the name.
+
+mo.groups()
+
+('415', '555-4242')
+
+It's a touple
+
+To match a parenthesis in a text we use backslash '\' before '(' or ')'.
+
+In regux the following characters has special meaning:
+.  ^  $  *  +  ?  {  }  [  ]  \  |  (  )
+so a backslash '\' should be used before each one of them if we have to use it anywhere.
+
+//----------------------------------
+
+The | character is called a pipe. You can use it anywhere you want to match one of many expressions. When both Batman and Tina Fey occur in the searched string, the first occurrence of matching text will be returned as the Match object.
+
+heroRegex = re.compile(r'Batman|Tina Fey')
+mo1 = heroRegex.search('Batman and Tina Fey')
+mo1.group()
+
+'Batman'
+
+mo2 = heroRegex.search('Tina Fey and Batman')
+mo2.group()
+
+'Tina Fey'
+
+You can also use the pipe to match one of several patterns as part of your regex.
+
+batRegex = re.compile(r'Bat(man|mobile|copter|bat)')
+mo = batRegex.search('Batmobile lost a wheel')
+mo.group()
+
+'Batmobile'
+
+mo.group(1)
+
+'moblile'
+
+//----------------------------------
+
+Optional Matching with Question Mark
+
+batRegex = re.compile(r'Bat(wo)?man')
+mo1 = batRegex.search('The Adventure of Batman')
+mo1.group()
+
+'Batman'
+
+mo2 = batRegex.search('The Adventure of Batwoman')
+mo2.group()
+
+'Batwoman'
+
+//----------------------------------
+
+Matching Zero or More with the Star
+
+* - Match zero or more
+
+batRegex = re.compile(r'Bat(wo)*men')
+mo1 = batRegex.search('The Adventure of Batman')
+mo1.group()
+
+'Batman'
+
+mo2 = batRegex.search('The Adventure of Batwoman')
+m02.group()
+
+'Batwoman'
+
+mo3 = batRegex.search('The Adventure of Batwowowowomen')
+mo3.group()
+
+'Batwowowowomen'
+
+//----------------------------------
+
+Matching One or More with the Plus
+
++ - Match one or more
+
+batRegex = re.compile(r'Bat(wo)+man')
+mo1 = batRegex.search('The Adventure of Batwoman')
+mo1.group()
+
+'Batwoman'
+
+mo2 = batRegex.search('The Adventure of Batwowowowomen')
+mo2.group()
+
+'Batwowowowomen'
+
+mo3 =  batRegex.search('The Adventure of Batman')
+m03 == None
+
+True
+
+//----------------------------------
+
+Making Specific Repetitions with Braces
+
+(Ha){3}: True for HaHaHa
+(Ha){3, 5}: True for HaHaHa, HaHaHaHa, HaHaHaHaHa
+
+//----------------------------------
+
+Greedy And Non-Greedy Matching
+
+Python's regular expressions are greedy by default, which means that in ambiguous situations they will match wthe longest string possible. The non-greedy(aka lazy) version of the braces, which matches the shortest string possible, has the closing brace followed by a question mark.
+
+greeyHaRegex = re.compile(r'(Ha){3, 5}')
+mo1 = greedyHaRegex.search('HaHaHaHa')
+mo1.group()
+
+'HaHaHaHa'
+
+nongreedyHaRegex = re.compile(r'(Ha){3, 5}?')
+mo2 = nongreedyHaRegex.search('HaHaHaHa')
+mo2.group()
+
+'HaHaHa'
+
+//----------------------------------
+
+The FindAll() Method
+
+phoneNumRegex = re.compile(r'\d\d\d-\d\d\d-\d\d\d\d')
+mo = phoneNumRegex.search('Cell: 415-555-999 Work: 212-555-0000')
+mo.group()
+
+'415-555-9999'
+
+phoneNumRegex.findall('Cell: 415-555-9999 Work: 212-555-0000')
+
+['415-555-9999', '212-555-00000']
+
+phoneNumRegex = re.compile(r'(\d\d\d)-(\d\d\d)-(\d\d\d\d)')
+phoneNumRegex.findall('Cell: 415-555-9999 Work: 212-555-0000')
+
+[('415', '555', '9999'), ('212', '555', '0000')]
+
+//----------------------------------
+
+\d -> Any numberic digit from 0 to 9.
+\D -> Any character that is not a numeric digit form 0 to 9.
+\w -> Any letter, numeric digit, or the underscore character.(Think of this as matching "word" characters.)
+\W -> Any character that is not a letter, numberic digit, or the underscore character.
+\s -> Any space, tab, or nweline character.(Think of this as matching "space" characters.)
+\S -> Any character that is not a space, tab, or newline.
+
+//----------------------------------
+
+Making your own Character Classes
+
+Character Class can be defined using square brackets([])
+
+vowelRegex = re.compile(r'[aeiouAEIOU]')
+vowelRegex.findall('RoboCop eats baby food. BABY FOOD.')
+
+['o', 'o', 'o', 'e', 'a', 'a', 'o', 'o', 'A', 'O', 'O']
+
+^ -> Used to make negative character class.
+
+//----------------------------------
+
+The Caret And Dollar Sign Characters
+
+^ -> The regex starts with This(Whatever is next to it) string
+$ -> The regex ends with This(Same as above) string
+
+beginsWithHello = re.compile(r'^Hello')
+beginsWithHello.search('Hello, world!')
+
+<re.Match object; span=(0, 5), match='Hello'>
+
+beginsWithHello.search('He said hello.') == None
+
+True
+
+endsWithNumber = re.compile(r'\d$')
+endsWithNumber.search('Your number is 42')
+
+<re.Match object; span=(16, 17), match='2'>
+
+endsWithNumber.search('Your number is forty two.') == None
+
+True
+
+//----------------------------------
+
+The WildCard Character
+
+. -> A WildCard: Will match any character excwpt for a newline
+
+atRegex = re.compile(r'.at')
+atRegex = findall('The cat in the hat sat on the flat mat.')
+
+['cat', 'hat', 'sat', 'lat', 'mat']
+
+//----------------------------------
+
+Matching Everything with Dot-Star
+
+.* -> Literally anything
+
+nameRegex = re.compile(r'Find Name: (.*) Last Name: (.*)')
+mo = nameRegex.search('First Name: Al Last Name" Sweigart')
+mo.group(1)
+
+'Al'
+
+mo.group(2)
+
+'Sweigart'
+
+//----------------------------------
+
+Matching Newlines with the Dot Character
+
+noNewlineRegex = re.compile('.*')
+noNewlineRegex.search('Serve the public trust. \n Someting').group()
+
+'Serve the public trust'
+
+newlineRegex = re.compile('.*', re.DOTALL)
+newlineRegex.seach('Serve he public trust.\nProtect the innocent.').group()
+
+'Serve the public trust.\nProtet the innocent.'
+
+//----------------------------------
+
+Case-Insensitive Matching
+
+Just pass re.IGNORECASE or re.I as a second argument to re.compile() to ignore case.
+
+//----------------------------------
+
+Substituting String with the Sub() Method
+
+namesRegex = re.compile(r'Agent \w+')
+namesRegex.sub('CENSORED', 'Agent Alice gave the secret documents to Agent Bob.')
+
+'CENSORED gave the secret documents to CENSORED.'
+
+\1 : Replaces the string by whatever text was matching
+
+//----------------------------------
+
+Managing Complex Regexes
+
+phoneRegex = re.compile(r'''(
+    (\d{3}|\(\d{3}\))?            # area code
+    (\s|-|\.)?                    # separator
+    \d{3}                         # first 3 digits
+    (\s|-|\.)                     # separator
+    \d{4}                         # last 4 digits
+    (\s*(ext|x|ext.)\s*\d{2,5})?  # extension
+    )''', re.VERBOSE)
+
+//----------------------------------
+
+Combining re.IGNORECASE, re.DOTALL, re.VERBOSE
+
+someRegexValue = re.compile('foo', re.IGNORECASE | re.DOTALL)
+
+//----------------------------------
+
+?:  is for non capturing group
+?=  is for positive look ahead
+?!  is for negative look ahead
+?<= is for positive look behind
+?<! is for negative look behind
+
+//----------------------------------
+

@@ -1,0 +1,85 @@
+//----------------------------------
+
+inport pyinputplus
+
+inputStr(): It is like the built-in input() function but has the general PyInputPlus features. You can also pass a custom validation function to it.
+
+inputNum(): It ennsures the user enters a numbet and returns an int or float, depending on if the number has a decimal poihnt in it.
+
+inputChoice(): It ensures the user enters one of the provided choices.
+
+inputMenu(): It is similar to inputChoice(), but provides a menu with numbeted or lettered options.
+
+inputDatetime(): It ensures the user enters a date and timne.
+
+inputYesNo(): It ensures the user enters a "yes" or "no" response.
+
+inputBool(): It is similar to inputYesNo(), but takes a "True" or "False" response and returns a Boolean value.
+
+inputEmail(): It ensures the user enters a valid email address.
+
+inputFilepath(): It ensures the user enters a valid file path and filename, and can optionally check that a file with the name exists.
+
+inputPassword(): It is like built-in input(), but diaplays * characters as the user types so that passwords, or other sensitive information, aren't displayed on the screen.
+
+//----------------------------------
+
+The min, max, greaterThan, and lessThan Keywords Arguments
+
+inputNum(), inpuInt(), and inputFloat() all have max, min, greatrThan, and lessThan arguments
+
+//----------------------------------
+
+The blank Keyword Argumement
+
+This just allows blank inputs.
+
+//----------------------------------
+
+The limit, timeout, and default Keyword Arguments
+
+limit: Limits the number of wrong input that can be taken from the user.
+
+timeout: Limts the seconds in which the user has to enter the input
+
+default: Sets the default of the value if not inputted
+
+//----------------------------------
+
+The allowRegexes and blockRegexes Keywrd Arguments
+
+import pyinputplus as pyip
+response = pyip.inputNum(allowRegexes=[r'(I|V|X|L|C|D|M)+', r'zero'])
+
+XLII
+
+response
+
+'XLII'
+
+response = pyip.inputNum(allowRegexes=[r'(i|v|x|l|c|d|m)+', r'zero'])
+
+xlii
+
+response
+
+'xlii'
+
+//----------------------------------
+
+Passing a Custom Validation Function to inputCustom()
+
+import pyinputplus as pyip
+
+def addsUpToTen(numbers):
+    numberList = list(numbers)
+    for i, digit in enumerate(numberList):
+        numberList[i] = int(digit)
+    if sum(numbersList) != 10:
+        raise Exception('The digits must add up to 10, not %s.' % (sum(numbersList)))
+    return int(numbers)
+
+    response = pyip.inputCustom(addsUpToTen)
+
+//----------------------------------
+

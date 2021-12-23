@@ -1,0 +1,79 @@
+//----------------------------
+
+'Hello, my name is ' + name + '. I am ' + str(age) + ' years old.'
+'Hello, my name is Al. I am 4000 years old.'
+
+'My name is %s. I am %s years old.' % (name, age)
+'My name is Al. I am 4000 years old.'
+
+f'My name is {name}. Next year I will be {age + 1}.'
+'My name is Al. Next year I will be 4001.'
+
+//----------------------------
+
+'abc12345'.islower()
+True
+'12345'.islower()
+False
+
+//----------------------------
+
+.isalpha() : Returns True if the sring consists only of letter and isn't blank
+.isalnum() : Returns True if the string consists only of letters and numbers and is not blank
+.isdecimal() : Returns True if the string consists only of numberic characters and is not blank
+.isspace() : Returns True if the string consists only of space, tabs, and newlines and is not blank
+.istitle() : Returns True if the string consists only of words that begin with an uppercase letter followed by only lowercase letters
+
+//-----------------------------
+
+startswith() and endwith() : does jsut like the name says
+
+//-----------------------------
+
+" ".join([Arr])
+
+String.split()
+
+//------------------------------
+
+'Hello, world!'.partition('o')
+('Hell', 'o','world!')
+
+'Hello, world!'.partition('world')
+('Hello', 'world', '!')
+
+'Hello, world!'.partition('XYZ')
+('Hello, world!', '', '')
+
+//------------------------------
+
+'Hello'.rjust(10)
+'          Hello'
+'Hello'.ljust(10)
+'Hello          '
+
+'Hello'.rjust(10, '*')
+'**********Hello'
+
+'Hello'.center(20)
+'          Hello          '
+
+'Hello'.center(20. '=')
+'==========Hello=========='
+
+//------------------------------
+
+spam = '     Hello, World     '
+spam.strip()
+'Hello, World'
+
+spam = '     Hello, World'
+spam.lstrip()
+'Hello, World    '
+
+spam = 'SpamSpamBaconSpamEggsSpamSpam'
+spam.strip('ampS')
+'BaconSpamEggs'
+
+//-------------------------------
+
