@@ -134,3 +134,123 @@ PosixPath('/')
 
 //----------------------------------
 
+os.path module also has some similar functions:
+
+variable = '/home/himanshul/go-files.log'
+
+os.path.basename(variable): 'go-files.log'
+
+os.path.dirname(variable): '/home/himanshul'
+
+os.path.split(variable): ('/home/himanshul', 'go-files.log')
+
+variable.split(os.sep): ['', 'home', 'himanshul', 'go-files.log']
+
+//----------------------------------
+
+Finding File Size and Folder Contents
+
+os.path.getsize(path) : Will return the size of the file in bytes
+
+os.listdir(path) : Will return a list of filename strings for each file in the path argument.
+
+//----------------------------------
+
+Modifying a List of Files Using Glob Patterns
+
+p = Path(path)
+p.glob('*') # Searches anything in parent
+p.glob('*.txt') # Searches all the files with .txt format
+p.glob('project?.docx') # Searches all the files with project1.docx or something like that.
+
+//---------------------------------
+
+Checking Path Validity
+
+p.exists() : True if path exists, False if it doesn't
+
+p.is_file() : True if path exists and is a File, False if it isn't
+
+p.is_dir() : True if path exists and is a directory, False if it isn't
+
+//---------------------------------
+
+The File Reading/Writing Process
+
+from pathlib import Path
+p = Path('spam.txt')
+p.write_text('Hello, world')
+
+13
+
+p.read_text()
+
+'Hello, world!'
+
+//---------------------------------
+
+Opening Files with the open() Function
+
+helloFile = open(Path.home() / 'hello.txt')
+
+By default python opens files in read mode, it can be done explicitly by passing a 'r' just after the path.
+
+eg.: open('/home/himanshul/hello.txt', 'r')
+
+//---------------------------------
+
+Reading the Contents of Files
+
+helloContent = helloFile.read()
+helloContent
+
+'Hello, world'
+
+readlines() : This method can be used to get the whole line from the file.
+
+//---------------------------------
+
+Writing to Files
+
+Writing mode: Overwrites the existing fil and start from scratch: Just pass 'w' in open() function
+
+Append mode: Append the text at the end of the existing file: Just pass 'r' in open() function
+
+baconFile = open('bacon.txt', 'w')
+baconFIle.write('Hello, world!\n')
+
+13
+
+baconFile.close()
+baconFile = open('bacon.txt', 'a')
+baconFile.write('Bacon is not a vegetable.')
+
+25
+
+baconFile.close()
+baconFile = open('bacon.txt')
+content = baconFile.read()
+baconFile.close()
+print(content)
+Hello, world!
+Bacon is not a vegetable.
+
+//----------------------------------
+
+Saving Variable with the shelve Module
+
+import shelve
+shelfFile = shelve.open('mydata') # As of Python 3.7, we have to pass the open() shelf method filename as strings.
+cats = ['Zophie', 'Pooka', 'Simon']
+shelfFile['cats'] = cats # The object assigned here can be used as if it's a Directory
+shelfFile.close()
+
+Just like directories it also has keys() and values() methods
+
+//-----------------------------------
+
+String Variable with the PPRINT.PFORMAT() Function
+
+Just use it.
+
+
