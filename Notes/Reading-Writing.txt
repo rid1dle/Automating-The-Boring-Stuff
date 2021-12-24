@@ -79,11 +79,11 @@ Path.cwd / Path('my/relative/path'): Will make a relative path absolute
 
 Some more useful functions related to absolute and relative paths:
 
-* Calling os.path.abspath(path) will return a string of the absolute path of the argument. This is an esay way to convert a relative path into an absolute one.
+* Calling os.path.abspath(path) will return a string of the absolute path of the argument. This is an easy way to convert a relative path into an absolute one.
 
-* Calling os.path.isabs(path) will return True if the argument is an absolute path and Glase if it is a relative path.
+* Calling os.path.isabs(path) will return True if the argument is an absolute path and False if it is a relative path.
 
-* Calling os.path.relpath(path, start) will return a sttring of a relative path from the start path to path. Ig start is not providedm the current working directory is used as the start path.
+* Calling os.path.relpath(path, start) will return a string of a relative path from the start path to path. Ig start is not provided the current working directory is used as the start path.
 
 //----------------------------------
 
@@ -114,7 +114,7 @@ p.drive
 
 ''
 
-The patrents attribute (which is different from the parent attribute) evaluates to the ancestor folders of a Path object with an integer index:
+The parents attribute (which is different from the parent attribute) evaluates to the ancestor folders of a Path object with an integer index:
 
 Path.cwd()
 
@@ -252,5 +252,7 @@ Just like directories it also has keys() and values() methods
 String Variable with the PPRINT.PFORMAT() Function
 
 Just use it.
+
+//-----------------------------------
 
 
