@@ -1,0 +1,151 @@
+//--------------------------------
+
+Shutil Module
+
+This module contains functions that let you copy, move, rename, and delete files
+
+import shutil
+
+//--------------------------------
+
+Copying Files and Folders
+
+import shutil, os
+from pathlib import Path
+
+p = Path.home()
+shutil.copy(p / 'spam.txt' , p / 'some_folder')
+
+shutil.copy(p / 'eggs.txt', p / 'some_folder/eggs2.txt')
+
+shutil.copytree(source, destination) : copies the entire tree(sub-folders and everting else) to the destination
+
+//----------------------------------
+
+Moving and Renaming Files and Folders
+
+Moving:
+
+import shutil
+shutil.move('path1', 'path2')
+
+Renaming:
+
+shutil.move('/home/himanshul/something.txt', '/home/himanshul/something_else.txt')
+
+//----------------------------------
+
+Permanently Deleting Files and Folders
+
+os.unlink(path) : deletes the file at path
+
+os.rmdir(path) : deletes the folder at path, it should be empty of any files or folder though
+
+shutil.rmtree(path) : will remove folder at the path, and all files and folders it contains will also be deleted.
+
+//----------------------------------
+
+Safe Deletes with the send2trash Module
+
+import send2trash
+baconFile = open('bacon.txt, 'a')
+baconFile.write('Bacon is not a vegetable')
+
+baconFile.close()
+send2trash.send2trash('bacon.txt')
+
+//----------------------------------
+
+Walking A Directory tree
+
+import os
+
+for folderName, subfolders, filenames in os.walk('path'):
+    print('THe current folder is' + folderName)
+
+    for subfolder in subfolders:
+        print('Subfolder of' + foldername + ': ' + subfolder)
+
+    for filename in filenames:
+        print('File Inside ' + folderName + ': ' + filename)
+    print('')
+
+os.walk('path'): Used to walk a directory tree.
+    Returns on each Iteration : 
+        1. A string of the current folder's folderName.
+        2. A list of string of the folders in the current folder.
+        3. A list of strings of the files in the current folder.
+
+Output for the above:
+
+The current folder is C:\delicious
+SUBFOLDER OF C:\delicious: cats
+SUBFOLDER OF C:\delicious: walnut
+FILE INSIDE C:\delicious: spam.txt
+
+The current folder is C:\delicious\cats
+FILE INSIDE C:\delicious\cats: catnames.txt
+FILE INSIDE C:\delicious\cats: zophie.jpg
+
+The current folder is C:\delicious\walnut
+SUBFOLDER OF C:\delicious\walnut: waffles
+
+The current folder is C:\delicious\walnut\waffles
+FILE INSIDE C:\delicious\walnut\waffles: butter.txt.
+
+//-----------------------------------
+
+Compressing Files with The Zipfile module
+
+Reading Zip Files
+
+import zipfile, os
+
+from pathlib import Path
+p = Path.home()
+exampleZip = zipfile.zipfile(p / 'example.zip')
+exampleZip.namelist() # Returns a list of strings for all the files
+
+['spam.txt', 'cats/', 'cats/catnames.txt', 'cats/zophie.jpg']
+
+spamInfo = exampleZip.getinfo('spam.txt')
+spamInfo.file_size
+
+13908
+
+spamInfo.compress_size
+
+3828
+
+f'Compressed file is {round(spamInfo.file_size / spamInfo.compress_size, 2}x smaller!')
+
+'Compressed file is 3.63x smaller!'
+
+exampleZip.close()
+
+//-------------------------------------
+
+Extracting from Zip Files
+
+import zipfile, os
+from pathlib import Path
+
+p = Path.home()
+exampleZip = zipfile.ZipFile(p / 'example.zip')
+exampleZip.extratall("path") # If left empty, It extracts everything in the home directory
+exampleZip.close()
+
+//-------------------------------------
+
+Creating and Adding to Zip Files
+
+To create our own compressed Zip files, we need to open the ZipFile Object in Write mode by passing a 'w' as the second argument.
+
+When we pass a path to the write() method of a ZipFile object, Python will compress the file ath that path and ass it into the Zip file. THe write()
+method's first argument is a string of the file name to add. The second argument is the compression type parameter, which tells the computer what algorithm it should use to compress the files; you can always just set this value to zipfile.ZIP_DEFLATED. (This specified the deflate compression algorithm, which works well on all types of data.)
+
+import zipfile
+newZip = zipfile.ZipFile('new.zip', 'w')
+newZip.write('spam.txt', compress_type=zipfile.ZIP_DEFLATED)
+newZip.close()
+

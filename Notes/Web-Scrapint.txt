@@ -1,0 +1,189 @@
+//----------------------------
+
+Launch a Specific URL
+
+import webbrowser
+webbrowser.open('https://inventwithpython.com/')
+
+//----------------------------
+
+Handle te Command Line Arguments
+
+import sys
+
+if len(sys.argv) > 1:
+    # Get address from command line.
+    address = ' '.join(sys.argv[1:])
+
+//----------------------------
+
+Handle the Clipboard Content
+
+import pyperclip
+
+pyperclip.paste() # Pastes the clipboard content in the program
+
+//----------------------------
+
+Downloading Files from the Web with the Requests Module
+
+import requests
+
+res = requests.get('url')
+type(res)
+
+<class 'requests.module.Response'>
+
+res.status_code == requests.codes.ok 
+
+True
+
+len(res.txt)
+
+178981
+
+print(res.txt[:250])
+
+---text---
+
+Line 37 just states that, if the request succeeded or not by using res.status_code. If it's equal to requests.code.ok, then everything went fine.
+
+//--------------------------------
+
+Checking for Errors
+
+res.raise_for_status()
+
+This will raise an exception if there was an error downloading the file and will do nothing if the download succeeded.
+
+Always call raise_for_status() method after calling requests.get(). We want to be sure that the download has actually worked before our program continues.
+
+//--------------------------------
+
+Saving Downloaded file to the Hard Drive
+
+import requests
+
+res = requests.get('url')
+res.raise_for_status()
+playFile = open('RomeoAndJuliet.txt', 'wb') # wb for writing in binary, to preserve Unicode encoding
+for chunk in res.iter_content(100000): 
+    playFile.write(chunk)
+
+100000
+78981
+
+playFile.close()
+
+The iter_content method returns 'chunks' of the content on each iteration through the  loop. Each chunk is of the bytes data type, and we get to specify how many bytes each will contain.
+
+//--------------------------------
+
+Parsing HTML with the BS4 Module
+
+import requests, bs4
+res = requests.get('url')
+res.raise_for_status()
+noStarchSoup = bs4.BeautifulSoup(res.txt, 'html.parser')
+type(noStarchSoup)
+
+<class 'bs4.BeautifulSoup'>
+
+exampleFile = open('example.html')
+exampleSoup = bs4.BeautifulSoup(exampleFile, 'html.parser')
+type(exampleSoup)
+
+<class 'bs4.BeautifulSoup'>
+
+//-------------------------------
+
+Finding an Element with the select() Method
+
+
+soup.select('div')
+
+All elements named <div>
+
+soup.select('#author')
+
+The element with an id attribute of author
+
+soup.select('.notice')
+
+All elements that use a CSS class attribute named notice
+
+soup.select('div span')
+
+All elements named <span> that are within an element named <div>
+
+soup.select('div > span')
+
+All elements named <span> that are directly within an element named <div>, with no other element in between
+
+soup.select('input[name]')
+
+All elements named <input> that have a name attribute with any value
+
+soup.select('input[type="button"]')
+
+All elements named <input> that have an attribute named type with value button
+
+These can be used to form sophisticated matches, such as, soup.select('p #author') will match an id attribute of author as long as it is also inside a <p> element.
+
+In console you can also directly copy the selector by going to the console and navigating to Copy -> CSS Selector
+
+import bs4
+
+exampleFile = open('example.html')
+exampleSoup = bs4.BeautifulSoup(exampleFile.read(), 'html.parser')
+elems = exampleSoup.select('#author')
+type(elems) # elems is a list of Tag objects.
+
+<class 'list'>
+
+len(elems)
+
+1
+
+type(elems[0])
+
+<class 'bs4.element.Tag'>
+
+str(elems[0]) # The Tag object as a string.
+
+'<span id = "author"> Al Sweigart </span>'
+
+elems[0].getText()
+
+'Al Sweigart'
+
+elems[0].attrs
+
+{'id': 'author'}
+
+It's a list, So you can use it as a list elements.
+
+//-------------------------------
+
+Getting Data from an Element's Attributes
+
+import bs4
+soup = bs4.BeautifulSoup(open('element.html'), 'html.parser')
+spamElem = soup.select('span')[0]
+str(spamElem)
+
+'<span id = "author"> Al Sweigart </span>'
+
+spanElem.get('id')
+
+'author'
+
+spamElem.get('some_nonexistent_addr') == None
+
+True
+
+spanElem.attrs
+
+{'id': 'author'}
+
+//---------------------------------
