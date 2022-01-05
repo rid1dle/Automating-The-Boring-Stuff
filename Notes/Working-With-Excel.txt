@@ -6,5 +6,330 @@ import openpyxl
 
 //---------------------------
 
-Reading Excel Documents
+Opening Excel Documents with OpenPyXL
 
+import openpyxl
+
+wb = openpyxl.load_workbook('example.xlsx')
+type(wb)
+
+<class 'openpyxl.workbook.workbook.Workbook'>
+
+Here, example.xlsx needs to be in the current working directory in order for it to work with it.
+os.getcwd(): to get current working directory
+os.chdir(): to change current working directory
+
+//----------------------------
+
+Getting Sheets from the Workbook
+
+import openpyxl
+
+wb = openpyxl.load_workbook('example.xlsx')
+wb.sheetnames # The workbook's sheets' names.
+
+['Sheet1', 'Sheet2', 'Sheet3']
+
+sheet = wb['Sheet3'] # Get a sheet from the workbook.
+sheet
+
+<Workbook "Sheet3">
+
+type(sheet)
+
+<class 'openpyxl.worksheet.worksheet.worksheet'>
+
+sheet.title # Get the sheet's title as a string.
+
+'Sheet3'
+
+anotherSheet = wb.active # Get the active sheet.
+anotherSheet
+
+<Workbook "Sheet1">
+
+//-----------------------------
+
+Getting Cells from the Sheets
+
+import openpyxl
+wb = openpyxl.load_workbook('example.xlsx')
+sheet = wb['Sheet1'] # Get a sheet from the workbook.
+sheet['A1'] # Get a cell from the sheet.
+
+<Cell 'Sheet1'.A1>
+
+sheet['A1'].value # Get the value from the cell.
+
+c = sheet['B1'] # Get another value form the sheet.
+c.value
+
+# Get the row, column, and value from the cell.
+'Row %s, Column %s is %s' % (c.row, c.column, c.value)
+
+'Cell %s is %s' % (c.coordinate, c.value)
+
+//------------------------------
+
+sheet.cell(row=1, column=2)
+
+<Cell 'Sheet1'.B1>
+
+sheet.cell(row=1, column=2).value
+
+for i in range(1, 8, 2) # Go through every other row:
+    print(i, sheet.cell((row=i, column=2).value))
+
+sheet.max_row # Get the highest row.
+sheet.max_column # Get the highest column NUMBER.
+
+//-------------------------------
+
+Converting Between Column Letter and Numbers
+
+import openpyxl
+from openpyxl.utils import get_column_letter, column_index_from_string
+get_column_letter(1) # Translate column 1 to a letter.
+
+'A'
+
+get_column_letter(2)
+
+'B'
+
+get_column_letter(900)
+
+'AHP'
+
+wb = openpyxl.load_workbook('example.xlsx')
+sheet = wb['Sheet1']
+get_column_letter(sheet.max_column)
+
+'C'
+
+column_index_from_string('A') # Get A's number.
+
+1
+
+column_index_from_string('AA')
+
+27
+
+//---------------------------------
+
+Getting Rows and Column from the Sheets
+
+import openpyxl
+wb = openpyxl.load_workbook('example.xlsx')
+sheet = wb['Sheet1']
+tuple(sheet['A1':'C3']) # Get all cells from A1 to C3.
+
+To print a specific row or column
+
+import openpyxl
+wb = openpyxl.load_workbook('example.xlsx')
+sheet = wb.active
+list(sheet.columns)[1] # Get second column's cells.
+
+//----------------------------------
+
+Writing Excel Documents
+
+Creating and Saving Excel Documents
+
+import openpyxl
+wb = openpyxl.Workbook() # Create a blank workbook.
+wb.sheetnames # It starts with one sheet.
+
+[''Sheet']
+
+sheet = wb.active
+sheet.title
+
+'Sheet'
+
+sheet.title = 'Spam Bacon Eggs Sheet' # Change title.
+wb.sheetnames
+['Spam Bacon Eggs Sheet']
+
+
+import openpyxl
+wb = openpyxl.load_workbook('example.xlsx')
+sheet = wb.active
+sheet.title = 'Spam Spam Spam'
+wb.save('example_copy.xlsx') # Save the workbook.
+
+//-------------------------------------
+
+Creating and Removing Sheets
+
+import openpyxl
+wb = openpyxl.Workbook()
+wb.sheetnames
+
+['Sheet']
+
+wb.create_sheet() # Add a new sheet.
+
+<Worksheet "Sheet1">
+
+wb.sheetnames
+
+['Sheet', 'Sheet1']
+
+# Create a new sheet at index 0.
+
+wb.create_sheet(index=0, title='First Sheet')
+
+<Workbook "First Sheet">
+
+wb.sheetnames
+
+['First Sheet', 'Sheet', 'Sheet1']
+
+wb.create_sheet(index=2, title='Middle Sheet')
+<Workbook "Middle Sheet">
+
+wb.sheetnames
+
+['First Sheet', 'Sheet', 'Middle Sheet', 'Sheet1']
+
+Deleting a Sheet:
+
+wb.sheetnames
+
+['First Sheet', 'Sheet', 'Middle Sheet', 'Sheet1']
+
+del wb['Middle Sheet']
+del wb['Sheet1']
+wb.sheetnames
+
+['First Sheet', 'Sheet']
+
+//--------------------------------
+
+Writing Values to Cells
+
+import openpyxl
+wb = openpyxl.Workbook()
+sheet = wb['Sheet']
+sheet['A1'] = 'Hello, world!' # Edit the cell's value.
+sheet['A1'].value
+'Hello, world!'
+
+//---------------------------------
+
+Setting the Font Style of Cells
+
+from openpyxl.styles import Font
+italic24Font = Font(size=24, italic=True) # Create a font.
+sheet['A1'].font = italic24Font # Apply the font to A1.
+
+Font Objects:
+
+Keyword argument
+
+Data type
+
+Description
+
+name
+
+String
+
+The font name, such as 'Calibri' or 'Times New Roman'
+
+size
+
+Integer
+
+The point size
+
+bold
+
+Boolean
+
+True, for bold font
+
+italic
+
+Boolean
+
+True, for italic font
+
+//------------------------------
+
+Formulas
+
+sheet['B9'] = '=SUM(B1:B8)'
+
+//------------------------------
+
+Adjusting Rows and columns
+
+Setting Row Height and Column Width
+
+import openpyxl
+wb = openpyxl.Workbook()
+sheet = wb.active
+sheet = wb.active
+sheet['A1'] = 'Tall row'
+sheet['B2'] = 'Wide column'
+# Set the height and width:
+sheet.row_dimensions[1].height = 70
+sheet.column_dimensions['B'] = 20
+wb.save('dimensions.xlsx')
+
+//--------------------------------
+
+Merging and Unmerging Cells
+
+sheet.merge_cells('C5:D5')
+
+sheet.unmerge_cells('A1:D3')
+
+//--------------------------------
+
+Freezing Panes
+
+freeze_panes setting
+
+Rows and columns frozen
+
+sheet.freeze_panes = 'A2'
+
+Row 1
+
+sheet.freeze_panes = 'B1'
+
+Column A
+
+sheet.freeze_panes = 'C1'
+
+Columns A and B
+
+sheet.freeze_panes = 'C2'
+
+Row 1 and columns A and B
+
+sheet.freeze_panes = 'A1' or sheet.freeze_panes = None
+
+No frozen panes
+
+
+//---------------------------------
+
+Charts
+
+To make a chart, we need to do the following:
+1. Create a Reference Object from a rectangular section of cells.
+2. Create a Series Object by passing in the Reference Object.
+3. Create a Chart Object.
+4. Append the Series Object too the Chart Object.
+5. Add the Chart Object to the Worksheet object, optionally specifying which cell should be the top-left corner of the chart.
+
+The Reference object requires some explaining. You create Reference objects by calling the openpyxl.chart.Reference() function and passing three arguments:
+
+1. The Worksheet object containing your chart data.
+2. A tuple of two integers, representing the top-left cell of the rectangular selection of cells containing your chart data: the first integer in the tuple is the row, and the second is the column. Note that 1 is the first row, not 0.
+3. A tuple of two integers, representing the bottom-right cell of the rectangular selection of cells containing your chart data: the first integer in the tuple is the row, and the second is the column.
